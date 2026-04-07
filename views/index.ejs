@@ -24,8 +24,12 @@
                 <span class="hidden sm:inline">System</span>
                 <%= status %>
             </span>
+            <a href="/volunteer/login"
+                class="text-xs sm:text-sm font-medium text-blue-600 hover:text-blue-700 transition">
+                Volunteer Login
+            </a>
             <a href="/login" class="text-xs sm:text-sm font-medium text-gray-700 hover:text-black transition">
-                Login
+                Admin
             </a>
         </div>
     </header>
@@ -148,10 +152,7 @@
         <p>Aapad-Net Platform &copy; 2026</p>
     </footer>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        if (window.location.hostname !== "192.168.137.1" && window.location.hostName !== "localhost") { window.location.href = "http://192.168.137.1:3000" }
-    </script>
+
 </body>
 
 </html>
