@@ -37,4 +37,5 @@ alter.js
 details.txt
 database.sqlite
 details.txt
-certs/
+key.pem
+cert.pem
