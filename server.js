@@ -4,9 +4,9 @@ import session from "express-session";
 import db from "./db.js";
 import multer from "multer";
 import fs from "fs";
-
+import bcrypt from "bcrypt";
+import https from "https";
 const app = express();
-
 if (!fs.existsSync("uploads")) {
   fs.mkdirSync("uploads");
 }
@@ -89,6 +89,133 @@ app.get("/assist", (req, res) => {
   res.render("assist");
 });
 
+app.post("/assist", async (req, res) => {
+  const { name, phone, password, skills, location } = req.body;
+
+  if (!name || !phone || !password || !skills || !location) {
+    return res.status(400).send("All fields are required");
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const query = `
+      INSERT INTO volunteers 
+      (name, phone, password, skills, location) 
+      VALUES (?, ?, ?, ?, ?)
+    `;
+
+    db.run(
+      query,
+      [name, phone, hashedPassword, skills, location],
+      function (err) {
+        if (err) {
+          console.error(err);
+          return res.status(500).send("Database error");
+        }
+
+        res.json({
+          success: true,
+          message: "Volunteer application submitted successfully",
+          id: this.lastID,
+        });
+      },
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+});
+
+// Volunteer Auth & Dashboard
+app.get("/volunteer/login", (req, res) => {
+  res.render("volunteer_login");
+});
+
+app.post("/volunteer/login", (req, res) => {
+  const { phone, password } = req.body;
+
+  if (!phone || !password) {
+    return res.status(400).send("Phone and password required");
+  }
+
+  db.get(
+    "SELECT * FROM volunteers WHERE phone = ?",
+    [phone],
+    async (err, volunteer) => {
+      if (err) return res.status(500).send("Database error");
+      if (!volunteer) return res.status(401).send("Invalid credentials");
+      if (!volunteer.password)
+        return res
+          .status(401)
+          .send("Account has no password set. Please re-register.");
+
+      try {
+        const match = await bcrypt.compare(password, volunteer.password);
+        if (match) {
+          req.session.volunteerId = volunteer.id;
+          return res.redirect("/volunteer/dashboard");
+        }
+      } catch (compareErr) {
+        console.error(compareErr);
+      }
+
+      res.status(401).send("Invalid credentials");
+    },
+  );
+});
+
+app.get("/volunteer/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
+});
+
+app.get("/volunteer/dashboard", (req, res) => {
+  if (!req.session.volunteerId) {
+    return res.redirect("/volunteer/login");
+  }
+
+  db.get(
+    "SELECT * FROM volunteers WHERE id = ?",
+    [req.session.volunteerId],
+    (err, volunteer) => {
+      if (err || !volunteer)
+        return res.status(500).send("Database error or user not found");
+
+      if (volunteer.status === "pending") {
+        res.render("volunteer_dashboard", {
+          volunteer,
+          requests: [],
+          hazards: [],
+        });
+      } else {
+        db.all(
+          "SELECT * FROM requests WHERE status != 'resolved' ORDER BY urgency DESC",
+          [],
+          (err2, requests) => {
+            if (err2) return res.status(500).send("Database error");
+
+            db.all(
+              "SELECT * FROM hazards WHERE status != 'resolved' ORDER BY created_at DESC",
+              [],
+              (err3, hazards) => {
+                if (err3) return res.status(500).send("Database error");
+
+                res.render("volunteer_dashboard", {
+                  volunteer,
+                  requests,
+                  hazards,
+                });
+              },
+            );
+          },
+        );
+      }
+    },
+  );
+});
+
 // Request form page
 app.get("/request", (req, res) => {
   res.render("request");
@@ -163,22 +290,18 @@ app.post("/report", upload.single("image"), (req, res) => {
     VALUES (?, ?, ?)
   `;
 
-  db.run(
-    query,
-    [description, location, imagePath],
-    function (err) {
-      if (err) {
-        console.error(err);
-        return res.status(500).send("Database error");
-      }
+  db.run(query, [description, location, imagePath], function (err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Database error");
+    }
 
-      res.json({
-        success: true,
-        message: "Hazard reported successfully",
-        id: this.lastID,
-      });
-    },
-  );
+    res.json({
+      success: true,
+      message: "Hazard reported successfully",
+      id: this.lastID,
+    });
+  });
 });
 
 // Login page
@@ -228,22 +351,34 @@ app.get("/admin", requireAdmin, (req, res) => {
             (err3, hazards) => {
               if (err3) return res.status(500).send("Database error");
 
-              const criticalCount = requests.filter(
-                (r) =>
-                  r.urgency === "critical" || (!r.urgency && r.type === "medical"),
-              ).length;
-              const highCount = requests.filter(
-                (r) => r.urgency === "high" || (!r.urgency && r.type !== "medical"),
-              ).length;
+              db.all(
+                "SELECT * FROM volunteers ORDER BY created_at DESC",
+                [],
+                (err4, volunteers) => {
+                  if (err4) return res.status(500).send("Database error");
 
-              res.render("admin", {
-                requests,
-                hazards,
-                safeCount: safeCount.count,
-                criticalCount,
-                highCount,
-              });
-            }
+                  const criticalCount = requests.filter(
+                    (r) =>
+                      r.urgency === "critical" ||
+                      (!r.urgency && r.type === "medical"),
+                  ).length;
+                  const highCount = requests.filter(
+                    (r) =>
+                      r.urgency === "high" ||
+                      (!r.urgency && r.type !== "medical"),
+                  ).length;
+
+                  res.render("admin", {
+                    requests,
+                    hazards,
+                    volunteers,
+                    safeCount: safeCount.count,
+                    criticalCount,
+                    highCount,
+                  });
+                },
+              );
+            },
           );
         },
       );
@@ -323,6 +458,39 @@ app.delete("/admin/hazard/:id", requireAdmin, (req, res) => {
   });
 });
 
+app.post("/admin/volunteer/:id/status", requireAdmin, (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!["pending", "approved"].includes(status)) {
+    return res.status(400).send("Invalid status");
+  }
+
+  db.run(
+    "UPDATE volunteers SET status = ? WHERE id = ?",
+    [status, id],
+    function (err) {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Database error");
+      }
+      res.json({ success: true });
+    },
+  );
+});
+
+app.delete("/admin/volunteer/:id", requireAdmin, (req, res) => {
+  const { id } = req.params;
+
+  db.run("DELETE FROM volunteers WHERE id = ?", [id], function (err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Database error");
+    }
+    res.json({ success: true });
+  });
+});
+
 // Logout
 app.get("/logout", (req, res) => {
   req.session.destroy(() => {
@@ -335,6 +503,14 @@ app.get("/logout", (req, res) => {
 // --------------------
 const port = 3000;
 
-app.listen(port, "0.0.0.0", () => {
-  console.log(`🚀 Server running on http://localhost:${port}`);
-});
+https
+  .createServer(
+    {
+      key: fs.readFileSync("key.pem"),
+      cert: fs.readFileSync("cert.pem"),
+    },
+    app,
+  )
+  .listen(3000, "0.0.0.0", () => {
+    console.log("HTTPS running on port 3000");
+  });

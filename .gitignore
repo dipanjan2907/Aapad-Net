@@ -36,3 +36,5 @@ npm-debug.log*
 alter.js
 details.txt
 database.sqlite
+details.txt
+certs/

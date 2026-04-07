@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,11 @@
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="font-['Open_Sans'] bg-gray-50 text-gray-900 min-h-screen flex flex-col antialiased">
 
+<body class="font-['Open_Sans'] bg-gray-50 text-gray-900 min-h-screen flex flex-col antialiased">
     <!-- Header -->
-    <header class="bg-white border-b border-gray-100 px-6 sm:px-12 py-5 flex justify-between items-center sticky top-0 z-50">
+    <header
+        class="bg-white border-b border-gray-100 px-6 sm:px-12 py-5 flex justify-between items-center sticky top-0 z-50">
         <a href="/" class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
             Aapad<span class="text-blue-600">-Net</span>
         </a>
@@ -19,24 +21,168 @@
         </a>
     </header>
 
-    <main class="flex-1 flex items-center justify-center px-4 py-16">
-        <div class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-200 p-8 text-center">
-            <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+    <main class="flex-1 flex flex-col items-center py-12 px-4 w-full">
+        <div class="w-full max-w-lg bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+            <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mb-6">
+                <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z">
+                    </path>
+                </svg>
             </div>
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Volunteer Services</h2>
-            <p class="text-gray-500 text-sm mb-6">This feature is currently under development. Check back soon.</p>
-            <div class="inline-block bg-gray-50 border border-gray-200 text-gray-500 text-xs font-semibold px-4 py-2 rounded-full uppercase tracking-wider">
-                Coming Soon
-            </div>
+            <h2 class="text-2xl font-bold mb-2 text-gray-900">Volunteer Registration</h2>
+            <p class="text-gray-500 text-sm mb-8">Register to assist in disaster response efforts.</p>
+
+            <form id="form" class="space-y-5">
+                <!-- Name -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 mb-2">Full Name <span
+                            class="text-red-500">*</span></label>
+                    <input type="text" id="name" required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 outline-none focus:border-blue-500 focus:bg-white transition"
+                        placeholder="Your full name">
+                </div>
+
+                <!-- Phone -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 mb-2">Phone Number <span
+                            class="text-red-500">*</span></label>
+                    <input type="tel" id="phone" required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 outline-none focus:border-blue-500 focus:bg-white transition"
+                        placeholder="Your contact number">
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 mb-2">Create Password <span
+                            class="text-red-500">*</span></label>
+                    <input type="password" id="password" required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 outline-none focus:border-blue-500 focus:bg-white transition"
+                        placeholder="For your volunteer dashboard">
+                </div>
+
+                <!-- Skills -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 mb-2">Primary Skills <span
+                            class="text-red-500">*</span></label>
+                    <select id="skills" required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 outline-none focus:border-blue-500 focus:bg-white transition">
+                        <option value="medical">Medical Assistance</option>
+                        <option value="rescue">Search & Rescue</option>
+                        <option value="transport">Transport & Logistics</option>
+                        <option value="general">General Help / Volunteer</option>
+                    </select>
+                </div>
+
+                <!-- Location -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 mb-2">Location / Area <span
+                            class="text-red-500">*</span></label>
+                    <textarea id="location" rows="2" required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 outline-none focus:border-blue-500 focus:bg-white transition resize-none"
+                        placeholder="Where are you located or willing to help?"></textarea>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl shadow-sm transition flex justify-center items-center gap-2">
+                    <span id="submit-text">Register as Volunteer</span>
+                    <span id="submit-spinner" class="hidden">
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                    </span>
+                </button>
+            </form>
         </div>
     </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal"
+        class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden opacity-0 transition-opacity duration-300">
+        <div
+            class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center transform scale-95 transition-transform duration-300">
+            <div
+                class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-50 mb-6 text-green-500">
+                <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Registration Complete</h3>
+            <p class="text-gray-500 text-sm mb-8">Thank you for registering as a volunteer. Your profile has been
+                submitted successfully.</p>
+            <a href="/volunteer/login"
+                class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition">
+                Login to Dashboard
+            </a>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="border-t border-gray-100 py-8 text-center text-sm text-gray-400 mt-auto bg-white w-full">
         <p>Aapad-Net Platform &copy; 2026</p>
     </footer>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        const form = document.getElementById("form");
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const submitText = document.getElementById('submit-text');
+        const submitSpinner = document.getElementById('submit-spinner');
+        const successModal = document.getElementById('success-modal');
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            submitText.classList.add('hidden');
+            submitSpinner.classList.remove('hidden');
+
+            const payload = {
+                name: document.getElementById("name").value,
+                phone: document.getElementById("phone").value,
+                password: document.getElementById("password").value,
+                skills: document.getElementById("skills").value,
+                location: document.getElementById("location").value
+            };
+
+            try {
+                const response = await fetch("/assist", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    successModal.classList.remove('hidden');
+                    setTimeout(() => {
+                        successModal.classList.remove('opacity-0');
+                        successModal.querySelector('div').classList.remove('scale-95');
+                        successModal.querySelector('div').classList.add('scale-100');
+                    }, 50);
+                } else {
+                    alert("Failed to register. Please try again.");
+                    resetSubmitButton();
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Connection error.");
+                resetSubmitButton();
+            }
+        });
+
+        function resetSubmitButton() {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            submitText.classList.remove('hidden');
+            submitSpinner.classList.add('hidden');
+        }
+    </script>
 </body>
+
 </html>
