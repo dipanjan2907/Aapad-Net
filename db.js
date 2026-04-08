@@ -54,6 +54,27 @@ const db = new sqlite3.Database(dbPath, async (err) => {
   )
 `);
 
+  // Create volunteers table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS volunteers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      phone TEXT,
+      password TEXT,
+      skills TEXT,
+      location TEXT,
+      status TEXT DEFAULT 'pending',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  db.run(
+    "ALTER TABLE volunteers ADD COLUMN password TEXT",
+    (err) => {
+      // Ignore error if column already exists
+    },
+  );
+
   // Create hazards table
   db.run(`
     CREATE TABLE IF NOT EXISTS hazards (
