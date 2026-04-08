@@ -37,3 +37,5 @@ database.sqlite
 alter.js
 database.sqlite
 details.txt
+cert.pem
+key.pem
