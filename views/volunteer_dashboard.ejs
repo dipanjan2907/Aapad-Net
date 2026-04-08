@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Dashboard | Aapad-Net</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-['Open_Sans'] bg-gray-50 text-gray-900 min-h-screen flex flex-col antialiased">
+    <!-- Header -->
+    <header
+        class="bg-white border-b border-gray-100 px-6 sm:px-12 py-5 flex justify-between items-center sticky top-0 z-50">
+        <a href="/" class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
+            Aapad<span class="text-blue-600">-Net</span>
+            <span class="text-sm font-normal text-gray-400 ml-2 hidden sm:inline">Volunteer Dashboard</span>
+        </a>
+        <div class="flex items-center gap-3">
+            <a href="/volunteer/dashboard"
+                class="flex items-center gap-2 bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                    </path>
+                </svg>
+                Refresh
+            </a>
+            <a href="/volunteer/logout"
+                class="flex items-center gap-2 bg-red-50 border border-red-100 hover:bg-red-600 text-red-600 hover:text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                Logout
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-1 px-4 sm:px-8 py-8 w-full max-w-6xl mx-auto">
+        <div class="mb-10">
+            <h1 class="text-3xl font-bold text-gray-900">Welcome, <%= volunteer.name %>!</h1>
+            <p class="text-gray-500 mt-2">Skills: <%= volunteer.skills %> | Location: <%= volunteer.location %>
+            </p>
+        </div>
+
+        <% if (volunteer.status==='pending' ) { %>
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-8 text-center max-w-2xl mx-auto mt-12">
+                <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-amber-900 mb-3">Application Pending</h2>
+                <p class="text-amber-700 mb-6">Your volunteer application is currently under review by our
+                    administration team. Once approved, you will have access to active emergency requests and hazard
+                    locations to directly assist those in need.</p>
+                <div
+                    class="inline-block bg-amber-100 border border-amber-200 text-amber-800 text-sm font-semibold px-5 py-2.5 rounded-xl uppercase tracking-wider">
+                    Status: Pending
+                </div>
+            </div>
+            <% } else { %>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                    <!-- Left Column: Emergencies -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <!-- Emergencies -->
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900 border-b border-gray-200 pb-3 mb-6">Active
+                                Emergencies Needed</h2>
+                            <% if (!requests || requests.length===0) { %>
+                                <div class="bg-white border border-gray-200 rounded-2xl p-6 text-center text-gray-400">
+                                    No active emergency requests at the moment.
+                                </div>
+                                <% } else { %>
+                                    <div class="space-y-4">
+                                        <% requests.forEach(request=> { %>
+                                            <div
+                                                class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col md:flex-row gap-6">
+                                                <div class="flex-1">
+                                                    <div class="flex justify-between items-start gap-4">
+                                                        <div>
+                                                            <h3 class="text-lg font-semibold text-gray-900">
+                                                                <%= request.name %> is requesting Help
+                                                            </h3>
+                                                            <p class="text-sm text-gray-400">
+                                                                <%= new Date(request.created_at.replace(' ', ' T') + 'Z'
+                                                                    ).toLocaleString('en-US', { dateStyle: 'medium' ,
+                                                                    timeStyle: 'short' }) %>
+                                                            </p>
+                                                        </div>
+                                                        <div class="flex flex-col items-end gap-2">
+                                                            <% if (request.urgency==="critical" ) { %>
+                                                                <span
+                                                                    class="bg-red-100 text-red-700 px-3 py-1 text-xs font-semibold rounded-full">Critical</span>
+                                                                <% } else if (request.urgency==="high" ) { %>
+                                                                    <span
+                                                                        class="bg-amber-100 text-amber-700 px-3 py-1 text-xs font-semibold rounded-full">High</span>
+                                                                    <% } else { %>
+                                                                        <span
+                                                                            class="bg-gray-100 text-gray-600 px-3 py-1 text-xs font-semibold rounded-full">Normal</span>
+                                                                        <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-4 text-sm text-gray-600 space-y-1">
+                                                        <p><strong class="text-gray-800">Type:</strong>
+                                                            <%= request.type %>
+                                                        </p>
+                                                        <p><strong class="text-gray-800">Phone:</strong>
+                                                            <%= request.phone || "Not provided" %>
+                                                        </p>
+                                                        <p><strong class="text-gray-800">Location:</strong>
+                                                            <%= request.location || "Unknown" %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <% if (request.image) { %>
+                                                    <div
+                                                        class="w-full md:w-32 shrink-0 overflow-hidden rounded-xl border border-gray-200 flex items-center justify-center bg-gray-50">
+                                                        <img src="/uploads/<%= request.image %>"
+                                                            class="w-full h-full object-cover max-h-32 md:max-h-full"
+                                                            alt="Request Image">
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                    <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Hazards and Info -->
+                    <div class="space-y-8">
+                        <!-- Hazards -->
+                        <div>
+                            <h2
+                                class="text-xl font-bold text-gray-900 border-b border-gray-200 pb-3 mb-6 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
+                                </svg>
+                                Hazard Zones
+                            </h2>
+                            <% if (!hazards || hazards.length===0) { %>
+                                <div
+                                    class="bg-white border border-gray-200 rounded-2xl p-6 text-center text-gray-400 text-sm">
+                                    No active hazard zones recorded.
+                                </div>
+                                <% } else { %>
+                                    <div class="space-y-4">
+                                        <% hazards.forEach(hazard=> { %>
+                                            <div class="bg-white rounded-2xl border border-gray-200 p-4">
+                                                <h3 class="text-md font-semibold text-gray-900 mb-1">Hazard Alert</h3>
+                                                <p class="text-xs text-gray-400 mb-3">
+                                                    <%= new Date(hazard.created_at.replace(' ', ' T') + 'Z'
+                                                        ).toLocaleString('en-US', { dateStyle: 'medium' ,
+                                                        timeStyle: 'short' }) %>
+                                                </p>
+                                                <p class="text-sm text-gray-600 mb-2"><strong
+                                                        class="text-gray-800">Location:</strong>
+                                                    <%= hazard.location %>
+                                                </p>
+                                                <p class="text-sm text-gray-600 line-clamp-3">
+                                                    <%= hazard.description %>
+                                                </p>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                    <% } %>
+                        </div>
+
+                        <!-- Guidelines -->
+                        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
+                            <h3 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Volunteer Guidelines
+                            </h3>
+                            <ul class="text-sm text-blue-800 space-y-3">
+                                <li>• Ensure your own safety first before entering a hazardous zone.</li>
+                                <li>• Contact the requestee via phone to verify their status before arriving.</li>
+                                <li>• Wear visible identification or high-visibility clothing.</li>
+                                <li>• Work in teams when responding to critical or high-urgency requests.</li>
+                                <li>• Respect local authorities and follow their directives immediately.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+    </main>
+
+    <!-- Footer -->
+    <footer
+        class="border-t border-gray-100 py-8 text-center text-sm text-gray-400 mt-auto bg-white w-full flex-shrink-0">
+        <p>Aapad-Net Platform &copy; 2026</p>
+    </footer>
+
+</body>
+
+</html>

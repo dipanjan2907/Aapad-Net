@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,28 +8,40 @@
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body class="font-['Open_Sans'] bg-gray-50 text-gray-900 min-h-screen flex flex-col antialiased">
 
     <!-- Header -->
-    <header class="bg-white border-b border-gray-100 px-6 sm:px-12 py-5 flex justify-between items-center sticky top-0 z-50">
+    <header
+        class="bg-white border-b border-gray-100 px-6 sm:px-12 py-5 flex justify-between items-center sticky top-0 z-50">
         <a href="/" class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
             Aapad<span class="text-blue-600">-Net</span>
             <span class="text-sm font-normal text-gray-400 ml-2 hidden sm:inline">Control Panel</span>
         </a>
         <div class="flex items-center gap-3">
-            <select id="viewFilter" class="bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium transition outline-none cursor-pointer">
+            <select id="viewFilter"
+                class="bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium transition outline-none cursor-pointer">
                 <option value="all">All Reports</option>
                 <option value="emergencies">Emergency Requests</option>
                 <option value="hazards">Hazard Reports</option>
+                <option value="volunteers">Volunteers</option>
             </select>
             <a href="/admin"
                 class="flex items-center gap-2 bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                    </path>
+                </svg>
                 Refresh
             </a>
             <a href="/logout"
                 class="flex items-center gap-2 bg-red-50 border border-red-100 hover:bg-red-600 text-red-600 hover:text-white px-4 py-2 rounded-xl text-sm font-medium transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                    </path>
+                </svg>
                 Logout
             </a>
         </div>
@@ -37,22 +50,36 @@
     <main class="flex-1 px-4 sm:px-8 py-8 w-full max-w-6xl mx-auto">
 
         <!-- Stats Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-10">
             <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center">
                 <p class="text-sm text-gray-500 mb-1">Safe</p>
-                <p class="text-3xl font-bold text-green-600"><%= safeCount %></p>
+                <p class="text-3xl font-bold text-green-600">
+                    <%= safeCount %>
+                </p>
             </div>
             <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center">
                 <p class="text-sm text-gray-500 mb-1">Critical</p>
-                <p class="text-3xl font-bold text-red-600"><%= criticalCount %></p>
+                <p class="text-3xl font-bold text-red-600">
+                    <%= criticalCount %>
+                </p>
             </div>
             <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center">
                 <p class="text-sm text-gray-500 mb-1">High</p>
-                <p class="text-3xl font-bold text-amber-500"><%= highCount %></p>
+                <p class="text-3xl font-bold text-amber-500">
+                    <%= highCount %>
+                </p>
             </div>
             <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center">
                 <p class="text-sm text-gray-500 mb-1">Total</p>
-                <p class="text-3xl font-bold text-gray-900"><%= requests.length %></p>
+                <p class="text-3xl font-bold text-gray-900">
+                    <%= requests.length %>
+                </p>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center">
+                <p class="text-sm text-gray-500 mb-1">Volunteers</p>
+                <p class="text-3xl font-bold text-blue-600">
+                    <%= (typeof volunteers !=='undefined' ) ? volunteers.length : 0 %>
+                </p>
             </div>
         </div>
 
@@ -61,149 +88,271 @@
             <div class="mb-6">
                 <h2 class="text-xl font-bold text-gray-900 border-b border-gray-200 pb-3">Emergency Requests</h2>
             </div>
-        <div class="space-y-4 mb-12">
-            <% if (!requests || requests.length === 0) { %>
-                <div class="bg-white border border-gray-200 rounded-2xl p-8 text-center text-gray-400">
-                    No active requests.
-                </div>
-            <% } else { %>
-                <% requests.forEach(request => { %>
-                    <div class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col md:flex-row gap-6">
-                        <div class="flex-1">
-                            <div class="flex justify-between items-start gap-4">
-                                <div>
-                                    <h3 class="text-lg font-semibold text-gray-900"><%= request.name %></h3>
-                                    <p class="text-sm text-gray-400">
-                                        <%= new Date(request.created_at.replace(' ', 'T') + 'Z').toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) %>
-                                    </p>
-                                </div>
-                                <div class="flex flex-col items-end gap-2">
-                                    <% if (request.urgency === "critical") { %>
-                                        <span class="bg-red-100 text-red-700 px-3 py-1 text-xs font-semibold rounded-full">Critical</span>
-                                    <% } else if (request.urgency === "high") { %>
-                                        <span class="bg-amber-100 text-amber-700 px-3 py-1 text-xs font-semibold rounded-full">High</span>
-                                    <% } else { %>
-                                        <span class="bg-gray-100 text-gray-600 px-3 py-1 text-xs font-semibold rounded-full">Normal</span>
-                                    <% } %>
-
-                                    <% if (request.status === 'in_progress') { %>
-                                        <span class="bg-blue-100 text-blue-700 px-3 py-1 text-xs font-semibold rounded-full">In Progress</span>
-                                    <% } else if (request.status === 'resolved') { %>
-                                        <span class="bg-green-100 text-green-700 px-3 py-1 text-xs font-semibold rounded-full">Resolved</span>
-                                    <% } else { %>
-                                        <span class="bg-gray-100 text-gray-600 px-3 py-1 text-xs font-semibold rounded-full">Pending</span>
-                                    <% } %>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 text-sm text-gray-600 space-y-1">
-                                <p><strong class="text-gray-800">Type:</strong> <%= request.type %></p>
-                                <p><strong class="text-gray-800">Phone:</strong> <%= request.phone || "Not provided" %></p>
-                                <p><strong class="text-gray-800">Location:</strong> <%= request.location || "Unknown" %></p>
-                            </div>
-
-                            <div class="mt-4 flex gap-3 flex-wrap">
-                                <% if (request.status !== 'in_progress' && request.status !== 'resolved') { %>
-                                    <button onclick="updateStatus('<%= request.id %>', 'in_progress')"
-                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
-                                        Mark In Progress
-                                    </button>
-                                <% } %>
-                                <% if (request.status !== 'resolved') { %>
-                                    <button onclick="updateStatus('<%= request.id %>', 'resolved')"
-                                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
-                                        Mark Resolved
-                                    </button>
-                                <% } else { %>
-                                    <button onclick="deleteRequest('<%= request.id %>')"
-                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
-                                        Delete
-                                    </button>
-                                <% } %>
-                            </div>
-                        </div>
-
-                        <% if (request.image) { %>
-                            <div class="w-full md:w-48 shrink-0 overflow-hidden rounded-xl border border-gray-200 flex items-center justify-center bg-gray-50">
-                                <img src="/uploads/<%= request.image %>" class="w-full h-full object-cover max-h-48 md:max-h-full" alt="Request Image">
-                            </div>
-                        <% } %>
+            <div class="space-y-4 mb-12">
+                <% if (!requests || requests.length===0) { %>
+                    <div class="bg-white border border-gray-200 rounded-2xl p-8 text-center text-gray-400">
+                        No active requests.
                     </div>
-                <% }) %>
-            <% } %>
-        </div>
+                    <% } else { %>
+                        <% requests.forEach(request=> { %>
+                            <div
+                                class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col md:flex-row gap-6">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start gap-4">
+                                        <div>
+                                            <h3 class="text-lg font-semibold text-gray-900">
+                                                <%= request.name %>
+                                            </h3>
+                                            <p class="text-sm text-gray-400">
+                                                <%= new Date(request.created_at.replace(' ', ' T') + 'Z'
+                                                    ).toLocaleString('en-US', { dateStyle: 'medium' , timeStyle: 'short'
+                                                    }) %>
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col items-end gap-2">
+                                            <% if (request.urgency==="critical" ) { %>
+                                                <span
+                                                    class="bg-red-100 text-red-700 px-3 py-1 text-xs font-semibold rounded-full">Critical</span>
+                                                <% } else if (request.urgency==="high" ) { %>
+                                                    <span
+                                                        class="bg-amber-100 text-amber-700 px-3 py-1 text-xs font-semibold rounded-full">High</span>
+                                                    <% } else { %>
+                                                        <span
+                                                            class="bg-gray-100 text-gray-600 px-3 py-1 text-xs font-semibold rounded-full">Normal</span>
+                                                        <% } %>
+
+                                                            <% if (request.status==='in_progress' ) { %>
+                                                                <span
+                                                                    class="bg-blue-100 text-blue-700 px-3 py-1 text-xs font-semibold rounded-full">In
+                                                                    Progress</span>
+                                                                <% } else if (request.status==='resolved' ) { %>
+                                                                    <span
+                                                                        class="bg-green-100 text-green-700 px-3 py-1 text-xs font-semibold rounded-full">Resolved</span>
+                                                                    <% } else { %>
+                                                                        <span
+                                                                            class="bg-gray-100 text-gray-600 px-3 py-1 text-xs font-semibold rounded-full">Pending</span>
+                                                                        <% } %>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 text-sm text-gray-600 space-y-1">
+                                        <p><strong class="text-gray-800">Type:</strong>
+                                            <%= request.type %>
+                                        </p>
+                                        <p><strong class="text-gray-800">Phone:</strong>
+                                            <%= request.phone || "Not provided" %>
+                                        </p>
+                                        <p><strong class="text-gray-800">Location:</strong>
+                                            <%= request.location || "Unknown" %>
+                                        </p>
+                                    </div>
+
+                                    <div class="mt-4 flex gap-3 flex-wrap">
+                                        <% if (request.status !=='in_progress' && request.status !=='resolved' ) { %>
+                                            <button onclick="updateStatus('<%= request.id %>', 'in_progress')"
+                                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                                                Mark In Progress
+                                            </button>
+                                            <% } %>
+                                                <% if (request.status !=='resolved' ) { %>
+                                                    <button onclick="updateStatus('<%= request.id %>', 'resolved')"
+                                                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                                                        Mark Resolved
+                                                    </button>
+                                                    <% } else { %>
+                                                        <button onclick="deleteRequest('<%= request.id %>')"
+                                                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                                                            Delete
+                                                        </button>
+                                                        <% } %>
+                                    </div>
+                                </div>
+
+                                <% if (request.image) { %>
+                                    <div
+                                        class="w-full md:w-48 shrink-0 overflow-hidden rounded-xl border border-gray-200 flex items-center justify-center bg-gray-50">
+                                        <img src="/uploads/<%= request.image %>"
+                                            class="w-full h-full object-cover max-h-48 md:max-h-full"
+                                            alt="Request Image">
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <% }) %>
+                                <% } %>
+            </div>
         </div>
 
         <!-- Hazard Reports Section -->
         <div id="hazardsSection">
             <div class="mb-6">
                 <h2 class="text-xl font-bold text-gray-900 border-b border-gray-200 pb-3 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                        </path>
+                    </svg>
                     Hazard Reports
                 </h2>
             </div>
-        <div class="space-y-4 mb-12">
-            <% if (!hazards || hazards.length === 0) { %>
-                <div class="bg-white border border-gray-200 rounded-2xl p-8 text-center text-gray-400">
-                    No active hazard reports.
-                </div>
-            <% } else { %>
-                <% hazards.forEach(hazard => { %>
-                    <div class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col md:flex-row gap-6">
-                        <div class="flex-1">
-                            <div class="flex justify-between items-start gap-4">
-                                <div>
-                                    <h3 class="text-lg font-semibold text-gray-900">Hazard Report #<%= hazard.id %></h3>
-                                    <p class="text-sm text-gray-400">
-                                        <%= new Date(hazard.created_at.replace(' ', 'T') + 'Z').toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) %>
-                                    </p>
-                                </div>
-                                <div class="flex flex-col items-end gap-2">
-                                    <% if (hazard.status === 'in_progress') { %>
-                                        <span class="bg-blue-100 text-blue-700 px-3 py-1 text-xs font-semibold rounded-full">In Progress</span>
-                                    <% } else if (hazard.status === 'resolved') { %>
-                                        <span class="bg-green-100 text-green-700 px-3 py-1 text-xs font-semibold rounded-full">Resolved</span>
-                                    <% } else { %>
-                                        <span class="bg-gray-100 text-gray-600 px-3 py-1 text-xs font-semibold rounded-full">Pending</span>
-                                    <% } %>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 text-sm text-gray-600 space-y-1">
-                                <p><strong class="text-gray-800">Location:</strong> <%= hazard.location %></p>
-                                <p><strong class="text-gray-800">Description:</strong> <%= hazard.description %></p>
-                            </div>
-
-                            <div class="mt-4 flex gap-3 flex-wrap">
-                                <% if (hazard.status !== 'in_progress' && hazard.status !== 'resolved') { %>
-                                    <button onclick="updateHazardStatus('<%= hazard.id %>', 'in_progress')"
-                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
-                                        Mark In Progress
-                                    </button>
-                                <% } %>
-                                <% if (hazard.status !== 'resolved') { %>
-                                    <button onclick="updateHazardStatus('<%= hazard.id %>', 'resolved')"
-                                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
-                                        Mark Resolved
-                                    </button>
-                                <% } else { %>
-                                    <button onclick="deleteHazard('<%= hazard.id %>')"
-                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
-                                        Delete
-                                    </button>
-                                <% } %>
-                            </div>
-                        </div>
-
-                        <% if (hazard.image) { %>
-                            <div class="w-full md:w-48 shrink-0 overflow-hidden rounded-xl border border-gray-200 flex items-center justify-center bg-gray-50">
-                                <img src="/uploads/<%= hazard.image %>" class="w-full h-full object-cover max-h-48 md:max-h-full" alt="Hazard Image">
-                            </div>
-                        <% } %>
+            <div class="space-y-4 mb-12">
+                <% if (!hazards || hazards.length===0) { %>
+                    <div class="bg-white border border-gray-200 rounded-2xl p-8 text-center text-gray-400">
+                        No active hazard reports.
                     </div>
-                <% }) %>
-            <% } %>
+                    <% } else { %>
+                        <% hazards.forEach(hazard=> { %>
+                            <div
+                                class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col md:flex-row gap-6">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start gap-4">
+                                        <div>
+                                            <h3 class="text-lg font-semibold text-gray-900">Hazard Report #<%= hazard.id
+                                                    %>
+                                            </h3>
+                                            <p class="text-sm text-gray-400">
+                                                <%= new Date(hazard.created_at.replace(' ', ' T') + 'Z'
+                                                    ).toLocaleString('en-US', { dateStyle: 'medium' , timeStyle: 'short'
+                                                    }) %>
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col items-end gap-2">
+                                            <% if (hazard.status==='in_progress' ) { %>
+                                                <span
+                                                    class="bg-blue-100 text-blue-700 px-3 py-1 text-xs font-semibold rounded-full">In
+                                                    Progress</span>
+                                                <% } else if (hazard.status==='resolved' ) { %>
+                                                    <span
+                                                        class="bg-green-100 text-green-700 px-3 py-1 text-xs font-semibold rounded-full">Resolved</span>
+                                                    <% } else { %>
+                                                        <span
+                                                            class="bg-gray-100 text-gray-600 px-3 py-1 text-xs font-semibold rounded-full">Pending</span>
+                                                        <% } %>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 text-sm text-gray-600 space-y-1">
+                                        <p><strong class="text-gray-800">Location:</strong>
+                                            <%= hazard.location %>
+                                        </p>
+                                        <p><strong class="text-gray-800">Description:</strong>
+                                            <%= hazard.description %>
+                                        </p>
+                                    </div>
+
+                                    <div class="mt-4 flex gap-3 flex-wrap">
+                                        <% if (hazard.status !=='in_progress' && hazard.status !=='resolved' ) { %>
+                                            <button onclick="updateHazardStatus('<%= hazard.id %>', 'in_progress')"
+                                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                                                Mark In Progress
+                                            </button>
+                                            <% } %>
+                                                <% if (hazard.status !=='resolved' ) { %>
+                                                    <button onclick="updateHazardStatus('<%= hazard.id %>', 'resolved')"
+                                                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                                                        Mark Resolved
+                                                    </button>
+                                                    <% } else { %>
+                                                        <button onclick="deleteHazard('<%= hazard.id %>')"
+                                                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                                                            Delete
+                                                        </button>
+                                                        <% } %>
+                                    </div>
+                                </div>
+
+                                <% if (hazard.image) { %>
+                                    <div
+                                        class="w-full md:w-48 shrink-0 overflow-hidden rounded-xl border border-gray-200 flex items-center justify-center bg-gray-50">
+                                        <img src="/uploads/<%= hazard.image %>"
+                                            class="w-full h-full object-cover max-h-48 md:max-h-full"
+                                            alt="Hazard Image">
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <% }) %>
+                                <% } %>
+            </div>
         </div>
+
+        <!-- Volunteers Section -->
+        <div id="volunteersSection">
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-gray-900 border-b border-gray-200 pb-3 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z">
+                        </path>
+                    </svg>
+                    Registered Volunteers
+                </h2>
+            </div>
+            <div class="space-y-4 mb-12">
+                <% if (!volunteers || volunteers.length===0) { %>
+                    <div class="bg-white border border-gray-200 rounded-2xl p-8 text-center text-gray-400">
+                        No active volunteers.
+                    </div>
+                    <% } else { %>
+                        <% volunteers.forEach(volunteer=> { %>
+                            <div
+                                class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col md:flex-row gap-6">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start gap-4">
+                                        <div>
+                                            <h3 class="text-lg font-semibold text-gray-900">
+                                                <%= volunteer.name %>
+                                            </h3>
+                                            <p class="text-sm text-gray-400">
+                                                <%= new Date(volunteer.created_at.replace(' ', ' T') + 'Z'
+                                                    ).toLocaleString('en-US', { dateStyle: 'medium' , timeStyle: 'short'
+                                                    }) %>
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col items-end gap-2">
+                                            <% if (volunteer.status==='approved' ) { %>
+                                                <span
+                                                    class="bg-green-100 text-green-700 px-3 py-1 text-xs font-semibold rounded-full">Approved</span>
+                                                <% } else { %>
+                                                    <span
+                                                        class="bg-amber-100 text-amber-700 px-3 py-1 text-xs font-semibold rounded-full">Pending</span>
+                                                    <% } %>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 text-sm text-gray-600 space-y-1">
+                                        <p><strong class="text-gray-800">Skills/Role:</strong>
+                                            <%= volunteer.skills %>
+                                        </p>
+                                        <p><strong class="text-gray-800">Phone:</strong>
+                                            <%= volunteer.phone %>
+                                        </p>
+                                        <p><strong class="text-gray-800">Location:</strong>
+                                            <%= volunteer.location %>
+                                        </p>
+                                    </div>
+
+                                    <div class="mt-4 flex gap-3 flex-wrap">
+                                        <% if (volunteer.status !=='approved' ) { %>
+                                            <button onclick="updateVolunteerStatus('<%= volunteer.id %>', 'approved')"
+                                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                                                Approve Volunteer
+                                            </button>
+                                            <% } else { %>
+                                                <button
+                                                    onclick="updateVolunteerStatus('<%= volunteer.id %>', 'pending')"
+                                                    class="bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition">
+                                                    Mark Pending
+                                                </button>
+                                                <% } %>
+                                                    <button onclick="deleteVolunteer('<%= volunteer.id %>')"
+                                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                                                        Delete
+                                                    </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                                <% } %>
+            </div>
         </div>
     </main>
 
@@ -212,22 +361,29 @@
         <p>Aapad-Net Platform &copy; 2026</p>
     </footer>
 
-    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        document.getElementById('viewFilter').addEventListener('change', function(e) {
+        document.getElementById('viewFilter').addEventListener('change', function (e) {
             const val = e.target.value;
             const emergenciesSec = document.getElementById('emergenciesSection');
             const hazardsSec = document.getElementById('hazardsSection');
-            
+            const volunteersSec = document.getElementById('volunteersSection');
+
             if (val === 'all') {
                 emergenciesSec.style.display = 'block';
                 hazardsSec.style.display = 'block';
+                volunteersSec.style.display = 'block';
             } else if (val === 'emergencies') {
                 emergenciesSec.style.display = 'block';
                 hazardsSec.style.display = 'none';
+                volunteersSec.style.display = 'none';
             } else if (val === 'hazards') {
                 emergenciesSec.style.display = 'none';
                 hazardsSec.style.display = 'block';
+                volunteersSec.style.display = 'none';
+            } else if (val === 'volunteers') {
+                emergenciesSec.style.display = 'none';
+                hazardsSec.style.display = 'none';
+                volunteersSec.style.display = 'block';
             }
         });
 
@@ -290,6 +446,37 @@
                 alert('Error deleting hazard');
             }
         }
+
+        async function updateVolunteerStatus(id, status) {
+            if (!confirm(`Mark this volunteer as ${status}?`)) return;
+            try {
+                const res = await fetch(`/admin/volunteer/${id}/status`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+                const data = await res.json();
+                if (data.success) location.reload();
+                else alert('Failed to update volunteer status');
+            } catch (error) {
+                console.error(error);
+                alert('Error updating volunteer status');
+            }
+        }
+
+        async function deleteVolunteer(id) {
+            if (!confirm('Delete this volunteer permanently?')) return;
+            try {
+                const res = await fetch(`/admin/volunteer/${id}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) location.reload();
+                else alert('Failed to delete volunteer');
+            } catch (error) {
+                console.error(error);
+                alert('Error deleting volunteer');
+            }
+        }
     </script>
 </body>
+
 </html>
